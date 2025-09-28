@@ -6,7 +6,7 @@ import '../ocean-breeze.css';
 import { Providers } from '@/providers/provider';
 
 export const metadata: Metadata = {
-  title: 'New POS Retail ',
+  title: 'POS Retail ',
   description: 'Aplikasi Penjualan',
 };
 

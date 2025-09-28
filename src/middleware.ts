@@ -1,9 +1,12 @@
 // middleware.ts
 import { NextResponse, NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
 // export const runtime = 'edge'; // sudah bisa balik ke edge
 
 export default async function middleware(request: NextRequest) {
-  const token = request.cookies.get('authToken')?.value;
+  // const token = request.cookies.get('authToken')?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get('authToken')?.value;
 
   if (!token) {
     return NextResponse.redirect(new URL('/login', request.url));

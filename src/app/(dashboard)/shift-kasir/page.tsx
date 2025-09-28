@@ -28,7 +28,6 @@ const ShiftKasirPage = () => {
   const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
   const [currentPage, setCurrentPage] = React.useState(1);
   const [queryString, setQueryString] = React.useState('');
-  const [showEditFormDialog, setShowEditFormDialog] = React.useState(false);
   const [selectedId, setSelectedId] = React.useState<string | null>('');
   const dfRef = React.useRef<Date | undefined>(
     subDays(parseISO(format(new Date(), 'yyyy-MM-dd', { locale: id })), 3)
@@ -61,10 +60,6 @@ const ShiftKasirPage = () => {
     refetch,
   } = useGetShifts(['shifts', queryKey]);
 
-  const handleEditOpenChange = (open: boolean) => {
-    setShowEditFormDialog(open);
-  };
-
   const startEditHandler = (dataId: string) => {
     setSelectedId(dataId);
     setShowOpenCashierDialog(true);
@@ -74,7 +69,6 @@ const ShiftKasirPage = () => {
   }
 
   const onSuccessHandler = useCallback(() => {
-    setShowEditFormDialog(false);
     setSelectedId(null);
   }, []);
 
@@ -182,7 +176,7 @@ const ShiftKasirPage = () => {
         <div className='flex flex-col gap-4 px-4 py-4 md:gap-6 md:px-6 md:py-6'>
           <div className='flex flex-wrap items-center justify-between'>
             <div className='text-accent-foreground basis-80 text-xl font-bold'>
-              Daftar Shift Kasir
+              Shift Kasir
             </div>
           </div>
           <DataFilter

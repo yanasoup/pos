@@ -38,6 +38,7 @@ export const getSales: QueryFunction<
       price_to: queryKey[1]?.price_to,
       product_id: queryKey[1]?.product_id,
       product_code: queryKey[1]?.product_code,
+      cashier: queryKey[1]?.cashier,
     },
     headers: {
       'Content-Type': 'application/json',
@@ -84,6 +85,7 @@ export type UseGetSalesParams = [
     price_to?: number;
     product_id?: string;
     product_code?: string;
+    cashier?: string;
   },
 ];
 

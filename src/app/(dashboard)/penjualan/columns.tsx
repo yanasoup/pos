@@ -137,6 +137,24 @@ export function getColumns(
       },
     },
     {
+      accessorKey: 'cashier_name',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title='Kasir'
+          className='justify-left'
+        />
+      ),
+
+      cell: ({ row }) => {
+        return (
+          <div className='text-left font-medium'>
+            {row.original.cashier_name}
+          </div>
+        );
+      },
+    },
+    {
       accessorKey: 'updated_at',
       header: ({ column }) => (
         <DataTableColumnHeader

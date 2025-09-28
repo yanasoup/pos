@@ -249,7 +249,13 @@ const PenjualanKasir = () => {
     };
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
-  }, [uiuxState.saleCart.detail]);
+  }, [
+    uiuxState.saleCart.detail,
+    uiuxState.cashierStatus,
+    showCreateFormDialog,
+    showShowConfirmDialog,
+    openSearchDialog,
+  ]);
 
   const handleConfirmSelect = (item: string) => {
     const arrItem = item.split('||');

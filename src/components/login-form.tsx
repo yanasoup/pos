@@ -88,8 +88,8 @@ export function LoginForm({
         {...props}
       >
         <div className='flex flex-col items-center gap-2 text-center'>
-          <h1 className='text-2xl font-bold'>Login ke akun Anda</h1>
-          <p className='text-muted-foreground text-sm text-balance'>
+          <h1 className='text-md font-bold lg:text-2xl'>Login ke akun Anda</h1>
+          <p className='text-muted-foreground text-xs text-balance md:text-sm'>
             Masukan email dan password untuk login
           </p>
         </div>

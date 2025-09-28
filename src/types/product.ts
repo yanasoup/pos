@@ -128,6 +128,7 @@ export type SaleMasterReturn = SaleMaster & {
   total_price: number;
   invoice_discount?: number;
   gross_margin?: number;
+  cashier_name: string;
 };
 
 export type SaleDetail = {
@@ -174,4 +175,5 @@ export type SaleReportReturn = {
   category_name: string;
   invoice_discount: number;
   created_at?: Date;
+  cashier_name: string;
 };

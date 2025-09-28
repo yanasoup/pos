@@ -59,7 +59,7 @@ const SaleDetailDialog: React.FC<DialogProps> = ({ masterId, ...props }) => {
           <DialogDescription className='hidden' />
           <DialogBody className='lg:text-md-regular text-sm-regular relative flex flex-col border-0 text-left'>
             {isLoading && (
-              <div className='flex-center bg-secondary-foreground absolute inset-0 z-100 flex h-full w-full flex-col'>
+              <div className='flex-center bg-background absolute inset-0 z-100 flex h-full w-full flex-col'>
                 <span className='text-xs lg:text-sm'>
                   {isLoading ? 'memuat data...' : 'menyimpan data...'}
                 </span>

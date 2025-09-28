@@ -28,8 +28,8 @@ customAxios.interceptors.response.use(
       ) {
         const resetAuth = async () => {
           toast.error('Sesi Anda sudah habis. Silakan login kembali.');
-          store.dispatch(resetState());
-          window.location.href = '/login';
+          // store.dispatch(resetState());
+          // window.location.href = '/login';
         };
         resetAuth();
       }

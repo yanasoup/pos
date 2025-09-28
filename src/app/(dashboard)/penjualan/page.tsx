@@ -1,7 +1,7 @@
 'use client';
 import { format, parseISO } from 'date-fns';
 import { id } from 'date-fns/locale';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'sonner';
 
@@ -11,10 +11,12 @@ import SaleDetailDialog from '@/components/partials/sale/detail-transaction';
 import { Input } from '@/components/ui/input';
 
 import { useGetSales, UseGetSalesParams } from '@/hooks/sale/useGetTransaction';
-import { exportToCsv, formatNumber } from '@/lib/utils';
+import { exportToCsv } from '@/lib/utils';
 import { RootState } from '@/redux/store';
 import { getColumns } from './columns';
 import { DataTable } from '@/components/data-table';
+import UserCombobox from '@/components/partials/common/combobox-user';
+import { Label } from '@/components/ui/label';
 const DEFAULT_PAGE_SIZE = Number(process.env.NEXT_PUBLIC_PAGE_SIZE) || 10;
 
 const PenjualanPage = () => {
@@ -33,6 +35,7 @@ const PenjualanPage = () => {
   const dfRef = React.useRef<Date | undefined>(undefined);
   const dtRef = React.useRef<Date | undefined>(undefined);
   const [goExport, setGoExport] = React.useState(false);
+  const kasir = useRef<string>('');
 
   const queryKey: UseGetSalesParams = [
     'purchases',
@@ -49,6 +52,7 @@ const PenjualanPage = () => {
       date_to: dateTo
         ? format(dateTo.toISOString(), 'yyyy-MM-dd', { locale: id })
         : '',
+      cashier: kasir.current,
     },
   ];
 
@@ -105,18 +109,10 @@ const PenjualanPage = () => {
   const exportQueryKey: UseGetSalesParams = [
     'purchases',
     {
+      ...queryKey[1],
       limit: salesData?.data?.total || pageSize,
       page: 1,
-      queryString: queryString,
-      customerId: '',
-      requestToken: uiuxState.apiToken!,
       enabled: goExport,
-      date_from: dateFrom
-        ? format(dateFrom.toISOString(), 'yyyy-MM-dd', { locale: id })
-        : '',
-      date_to: dateTo
-        ? format(dateTo.toISOString(), 'yyyy-MM-dd', { locale: id })
-        : '',
     },
   ];
 
@@ -177,6 +173,10 @@ const PenjualanPage = () => {
     setCurrentPage(1);
     setQueryString(value);
   }, []);
+  const confirmSelectKasir = (item: string) => {
+    const arr = item.split('||');
+    kasir.current = arr[0];
+  };
 
   return (
     <div className='flex flex-1 flex-col'>
@@ -191,7 +191,14 @@ const PenjualanPage = () => {
             options={{ showExportButton: true }}
             onExport={handleExportData}
             isExporting={isExporting}
-          />
+          >
+            <div className='flex flex-col'>
+              <Label className='text-xs lg:text-sm'>Kasir</Label>
+              <div className='text-muted-foreground flex items-center justify-center text-sm'>
+                <UserCombobox onSelectConfirm={confirmSelectKasir} />
+              </div>
+            </div>
+          </DateFilter>
           <div>
             <div className='flex-between mb-4 flex'>
               <div className='text-muted-foreground text-left text-xs italic'>

@@ -10,7 +10,6 @@ import { toast } from 'sonner';
 
 import SupplierCombobox from '@/components/partials/common/combobox-supplier';
 import MyConfirmationDialog from '@/components/partials/common/confirmation-dialog';
-import HeaderNavigation from '@/components/partials/layouts/header-navigation';
 import AddPurchaseDialog from '@/components/partials/purchase/add-purchase';
 import EditPurchaseDialog from '@/components/partials/purchase/edit-purchase';
 import { Button } from '@/components/ui/button';

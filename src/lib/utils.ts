@@ -129,3 +129,19 @@ export function exportToCsv(filename: string, rows: any[]) {
     document.body.removeChild(link);
   }
 }
+
+export function ucwords(str: string) {
+  // Convert the string to lowercase to ensure consistent capitalization
+  const words = str.toLowerCase().split(' ');
+
+  // Map over each word, capitalize its first letter, and lowercase the rest
+  const capitalizedWords = words.map((word) => {
+    if (word.length === 0) {
+      return ''; // Handle empty words if any
+    }
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  });
+
+  // Join the capitalized words back into a single string
+  return capitalizedWords.join(' ');
+}

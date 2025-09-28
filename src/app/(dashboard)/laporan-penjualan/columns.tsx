@@ -159,11 +159,20 @@ export function getColumns(): ColumnDef<SaleReportReturn>[] {
       cell: ({ row }) => {
         const net_margin =
           row.original.price * row.original.qty -
-          row.original.price_cogs * row.original.qty -
-          row.original.invoice_discount;
+          row.original.price_cogs * row.original.qty;
         const formatted = formatNumber(net_margin);
         return <div className='text-right font-medium'>{formatted}</div>;
       },
+    },
+    {
+      accessorKey: 'cashier_name',
+      header: ({ column }) => (
+        <DataTableColumnHeader
+          column={column}
+          title='Kasir'
+          className='justify-end'
+        />
+      ),
     },
   ];
 }

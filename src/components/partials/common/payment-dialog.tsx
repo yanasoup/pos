@@ -166,7 +166,7 @@ const MyPaymentDialog: React.FC<FormStatusDialogProps> = ({
 
   return (
     <Dialog {...props}>
-      <DialogContent className='mx-auto max-h-[85vh] max-w-[90%] overflow-scroll px-4 py-6 md:px-6 md:py-6 lg:max-w-[60%]'>
+      <DialogContent className='mx-auto max-h-[85vh] max-w-[90%] overflow-scroll px-4 py-6 md:px-6 md:py-6 lg:max-w-[600px]'>
         <DialogHeader>
           <DialogTitle className='flex items-center justify-between'>
             <p className='text-md-bold lg:text-xl-bold text-left'>Pembayaran</p>

@@ -1,7 +1,7 @@
 'use client';
 import { format, parseISO } from 'date-fns';
 import { id } from 'date-fns/locale';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { toast } from 'sonner';
@@ -19,6 +19,8 @@ import { RootState } from '@/redux/store';
 import { getColumns } from './columns';
 import { DataTable } from '@/components/data-table';
 import { TableCell, TableFooter, TableRow } from '@/components/ui/table';
+import UserCombobox from '@/components/partials/common/combobox-user';
+import { Label } from '@/components/ui/label';
 const DEFAULT_PAGE_SIZE = Number(process.env.NEXT_PUBLIC_PAGE_SIZE) || 10;
 
 const LaporanPenjualanPage = () => {
@@ -33,6 +35,7 @@ const LaporanPenjualanPage = () => {
   const [queryString, setQueryString] = React.useState('');
   const [debouncedSearch, setDebouncedSearch] = React.useState('');
   const [goExport, setGoExport] = React.useState(false);
+  const kasir = useRef<string>('');
 
   const queryKey: UseGetSalesParams = [
     'purchases',
@@ -51,14 +54,12 @@ const LaporanPenjualanPage = () => {
         : '',
       categoryId: categoryRef.current,
       product_code: productCodeRef.current,
+      cashier: kasir.current,
     },
   ];
 
-  const {
-    data: salesData,
-    isPending: isFetching,
-    error: fetchError,
-  } = useGetSalesReport(queryKey);
+  const { data: salesData, isPending: isFetching } =
+    useGetSalesReport(queryKey);
 
   React.useEffect(() => {
     const dateNow = new Date();
@@ -102,20 +103,10 @@ const LaporanPenjualanPage = () => {
   const exportQueryKey: UseGetSalesParams = [
     'purchases',
     {
+      ...queryKey[1],
       limit: salesData?.data?.total || pageSize,
       page: 1,
-      queryString: queryString,
-      customerId: '',
-      requestToken: uiuxState.apiToken!,
       enabled: goExport,
-      date_from: dfRef.current
-        ? format(dfRef.current.toISOString(), 'yyyy-MM-dd', { locale: id })
-        : '',
-      date_to: dtRef.current
-        ? format(dtRef.current.toISOString(), 'yyyy-MM-dd', { locale: id })
-        : '',
-      categoryId: categoryRef.current,
-      product_code: productCodeRef.current,
     },
   ];
 
@@ -137,6 +128,7 @@ const LaporanPenjualanPage = () => {
         'Harga Jual',
         'Total Harga',
         'Margin',
+        'Kasir',
       ];
 
       const tmpData = exportData?.data?.data?.map((item) => {
@@ -151,6 +143,7 @@ const LaporanPenjualanPage = () => {
           item?.price,
           item?.price * item?.qty,
           item?.price * item?.qty - item?.price_cogs * item?.qty,
+          item.cashier_name,
         ];
       });
 
@@ -171,6 +164,10 @@ const LaporanPenjualanPage = () => {
     setCurrentPage(1);
     setQueryString(value);
   }, []);
+  const confirmSelectKasir = (item: string) => {
+    const arr = item.split('||');
+    kasir.current = arr[0];
+  };
 
   return (
     <div className='flex flex-1 flex-col'>
@@ -198,7 +195,14 @@ const LaporanPenjualanPage = () => {
             }}
             onExport={handleExportData}
             isExporting={isExporting}
-          />
+          >
+            <div className='flex flex-col'>
+              <Label className='text-xs lg:text-sm'>Kasir</Label>
+              <div className='text-muted-foreground flex items-center justify-center text-sm'>
+                <UserCombobox onSelectConfirm={confirmSelectKasir} />
+              </div>
+            </div>
+          </DataFilter>
           <div>
             <div className='flex-between mb-4 flex'>
               <div className='text-muted-foreground text-left text-xs italic'>
@@ -234,10 +238,11 @@ const LaporanPenjualanPage = () => {
                   <TableCell className='text-right'>
                     {formatNumber(salesData?.aggregate?.total_harga || 0)}
                   </TableCell>
-                  <TableCell> </TableCell>
-                  <TableCell className='text-right'>
+                  <TableCell className='text-right' colSpan={2}>
+                    <span className='text-xs'>Margin (excl. Diskon):</span>{' '}
                     {formatNumber(salesData?.aggregate?.total_margin || 0)}
                   </TableCell>
+                  <TableCell> </TableCell>
                 </TableRow>
               </TableFooter>
             </DataTable>
