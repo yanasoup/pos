@@ -34,15 +34,15 @@ export default function LoginPage() {
               href='https://expo.dev/accounts/yanasoup/projects/kasir-pos-mobile/builds/b815342a-3fcf-4d9e-a795-aa9c31476ab5'
               target='_blank'
             >
-              <div className='flex items-center rounded-md border p-4'>
+              <div className='to-accent from-secondary flex items-center rounded-md border bg-gradient-to-br px-6 py-1.5 shadow hover:opacity-90'>
                 <Image
                   src='/icons/android-icon.png'
                   alt='playstore'
                   width={64}
                   height={64}
-                  className='size-12'
+                  className='size-8'
                 />
-                <p className='text-xs'>Download App</p>
+                <p className='text-[0.625rem] font-semibold'>Download App</p>
               </div>
             </Link>
           </div>

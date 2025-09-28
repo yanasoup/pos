@@ -27,9 +27,9 @@ customAxios.interceptors.response.use(
         window.location.pathname !== '/login'
       ) {
         const resetAuth = async () => {
-          toast.error('Sesi Anda sudah habis. Silakan login kembali.');
-          // store.dispatch(resetState());
-          // window.location.href = '/login';
+          // toast.error('Sesi Anda sudah habis. Silakan login kembali.');
+          store.dispatch(resetState());
+          window.location.href = '/login';
         };
         resetAuth();
       }
